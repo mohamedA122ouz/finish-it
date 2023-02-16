@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no">
+    <title>finish it</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="icon/todo.png">
+</head>
+<body onload="settings.restoreAndApply()">
+<div id="addAlert"></div>
+    <header>
+        <div id="brand">
+            <img src="icon/todo.png" alt="page-icon" id="brand-icon">
+            <p id="brand-name">finish-it</p>
+        </div>
+        <span class="info"
+            onclick="control.showAlert('This is a to do list website ,On control panel you have the red button to delete old list and create a new list<br>the green add button is to add to an item to an exist list<br>the white button is a refresh button<br>on hover list element you can find delete option to delete the hovered item and and the edit is to edite the specific item that you are hover.<div>!!NEW triple click any item in your list and choose which item to swap with to enable it open settings from settings button next to info button the check checkbox to enable it!!</div>  ',-1,`control.hideAlert()`,'OK',' ');"><svg
+                xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                class="bi bi-info-circle-fill" viewBox="0 0 16 16">
+                <path
+                    d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
+            </svg></span>
+        <div id="bar" onclick="settings.show()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" fill="currentColor" class="bi bi-justify"
+                viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                    d="M2 12.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
+            </svg>
+        </div>
+    </header>
+    <div id="settings" tabindex="-1">
+        <div id="settings-title">
+            <p onclick="settings.hide()" class="exist">X</p>
+            <p id="setting-p">Settings</p>
+        </div>
+        <label for="font">Fonts:</label>
+        <select name="font" id="font">
+            <option value="browser defualt">browser defualt</option>
+            <option value="'Courier New'">Courier New</option>
+            <option value="'Lucida Sans'">Lucida Sans</option>
+            <option value="cursive">cursive</option>
+            <option value="system-ui">system-ui</option>
+            <option value="'Trebuchet MS'">Trebuchet MS</option>
+        </select>
+        <br>
+        <label for="fontsize">font size:</label>
+        <select name="fontsize" id="fontsize">
+            <option value="16">16pt</option>
+            <option value="18">18pt</option>
+            <option value="20">20pt</option>
+            <option value="24">24pt</option>
+            <option value="28">28pt</option>
+            <option value="30">30pt</option>
+            <option value="32">32pt</option>
+        </select>
+        <div>
+            <span>enable swap</span>
+            <input type="checkbox" style="display:inline;max-width: max-content;"name="triple" id="enableSwap" onclick="control.enableTriple = this.checked">
+        </div>
+        <div>
+            <span>enable select text from list</span>
+            <input type="checkbox" style="display:inline;max-width: max-content;"name="select" id="selectText" onclick="control.enableSelect.set(this)">
+        </div>
+        <button onclick="settings.apply()">apply</button>
+        <p id="copyRight">mohamed Ahmed Azouz&copy;2023<br>V0.3.4&nbsp;(beta)</p>
+    </div>
+    <div id="container">
+        <h1>control panel:</h1>
+        <div id="buttons">
+            <button id="start"
+            onclick="control.start()"
+            title="Add new list and delete old one if exist"><svg xmlns="http://www.w3.org/2000/svg" width="20"
+            height="20" fill="currentColor" class="bi bi-file-earmark-plus" viewBox="0 0 16 16">
+            <!-- start new list -->
+                    <path
+                        d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5z" />
+                    <path
+                        d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z" />
+                </svg></button>
+            <button id="a" onclick="control.addbutton()" title="add to exist items"><svg
+                    xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                    class="bi bi-plus-circle" viewBox="0 0 16 16">
+                    <!-- add button -->
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                    <path
+                        d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                </svg></button>
+            <button onclick="control.additem('restore')" title="restore"><svg xmlns="http://www.w3.org/2000/svg"
+                    width="16" height="16" fill="currentColor" class="bi bi-bootstrap-reboot" viewBox="0 0 16 16">
+                    <!-- restore button -->
+                    <path
+                        d="M1.161 8a6.84 6.84 0 1 0 6.842-6.84.58.58 0 1 1 0-1.16 8 8 0 1 1-6.556 3.412l-.663-.577a.58.58 0 0 1 .227-.997l2.52-.69a.58.58 0 0 1 .728.633l-.332 2.592a.58.58 0 0 1-.956.364l-.643-.56A6.812 6.812 0 0 0 1.16 8z" />
+                    <path
+                        d="M6.641 11.671V8.843h1.57l1.498 2.828h1.314L9.377 8.665c.897-.3 1.427-1.106 1.427-2.1 0-1.37-.943-2.246-2.456-2.246H5.5v7.352h1.141zm0-3.75V5.277h1.57c.881 0 1.416.499 1.416 1.32 0 .84-.504 1.324-1.386 1.324h-1.6z" />
+                </svg></button>
+        </div>
+        <hr>
+        <div id="textReady">
+        </div>
+        <ol id="listIt">
+        </ol>
+    </div>
+    <script src="script/script.js"></script>
+</body>
+
+</html>
