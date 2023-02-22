@@ -1,7 +1,7 @@
 "use strict";
 let h1 = document.querySelector("h1");
 document.body.style.backgroundSize = `${window.innerWidth < window.innerHeight ? window.innerWidth : window.innerHeight}px`;
-document.querySelector("#container").setAttribute("style", `width:${window.innerWidth}px`);
+document.querySelector("#container").setAttribute("style", `max-width:${window.innerWidth}px`);
 document.querySelector("header").setAttribute("style", `max-width:${window.innerWidth}px`);
 // window.addEventListener("resize", () => {
 //     document.body.style.backgroundSize = `${window.innerWidth < window.innerHeight ? window.innerWidth : window.innerHeight}px`;
@@ -272,8 +272,8 @@ let control = {
         for (let i = 0; i < control.listPro.length; i++) {
             if (control.listPro[i]) {
                 item +=
-                    `<li class="vertical">${i + 1}-&nbsp;
-                    <div class = "olLi ${control.enableSelect.select?"select":"noselect"}" id="s${i}" onmousedown ="control.swapHandler(this.parentElement,${i})" >
+                    `<li class="vertical" onmousedown="control.swapHandler2(this,${i})" ontouchstart="control.swapHandler2(this,${i})" onmouseup ="control.clearHold()" ontouchcancel ="control.clearHold()" ontouchend ="control.clearHold()">${i + 1}-&nbsp;
+                    <div class = "olLi ${control.enableSelect.select ? "select" : "noselect"}" id="s${i}" onmousedown ="control.swapHandler(this.parentElement,${i})" >
                     ${control.listPro[i].replace(new RegExp('&!comma;', 'g'), ",") || "item not specified"}
                     </div>
                     <div class="alignment"></div>
@@ -332,6 +332,7 @@ let control = {
         control.editedItem.text = storage.GGet("list")[i];
         control.editedItem.index = i;
         //console.log(i);
+        panel.controls.litralList = false;
         control.isitadd = true;
         panel.build();
         panel.getself().innerHTML = control.editedItem.text;
@@ -397,21 +398,7 @@ let control = {
                 control.lastel = null;
             }
             else {
-                if (control.lastel === el)
-                    control.swapCounter++;
-                if (control.swapCounter === 2) {
-                    //console.log("worked");
-                    el.style.backgroundColor = "#5ebd68";
-                    control.target = el;//target elemrnt is the element which became dark gray
-                    control.targetnum = num;
-                }
-                if (control.swapCounter === 3) {
-                    ////console.log("here");
-                    control.swapCounter = 0;
-                    control.lastel.removeAttribute("style");
-                    control.target = null;
-                    control.targetnum = null;
-                }
+                control.selectSwapItem(el,num);
             }
         }
         else if (control.lastel) {
@@ -419,6 +406,52 @@ let control = {
                 control.lastel.removeAttribute("style");
             control.targetnum = null;
         }
+    },
+    //select in memory and set styles for selected element
+    selectSwapItem: function (el,num) {
+        if (this.lastel === el)
+            this.swapCounter++;
+        if (this.swapCounter === 2) {
+            //console.log("worked");
+            el.style.backgroundColor = "#5ebd68";
+            this.target = el;//target elemrnt is the element which became dark gray
+            this.targetnum = num;
+        }
+        if (this.swapCounter === 3) {
+            ////console.log("here");
+            this.swapCounter = 0;
+            this.lastel.removeAttribute("style");
+            this.target = null;
+            this.targetnum = null;
+        }
+    }
+    ,
+    IntervalID: 0,
+    holdercount: 0
+    ,
+    //hold function to get hold when user hold an li
+    swapHandler2: function (el, num) {
+        console.log("started");
+        this.IntervalID = setInterval(() => {
+            this.holdercount++;
+            console.log(this.holdercount);
+            if (this.holdercount == 1) {
+                this.swapCounter = 1;
+                this.lastel = el;
+                this.selectSwapItem(el, num);
+                console.log("Ready")
+            }
+            else if (this.holdercount > 2) {
+                clearInterval(this.IntervalID);
+                console.log("cleared");
+            }
+        }, 1000)
+    }
+    ,
+    clearHold: function () {
+        clearInterval(this.IntervalID);
+        this.holdercount = 0;
+        console.log("cleared");
     }
     ,
     enableTriple: false
@@ -428,17 +461,17 @@ let control = {
         set: (el) => {
             control.enableSelect.select = el.checked;
             document.querySelectorAll(".olLi").forEach(
-                (ve)=>{
+                (ve) => {
                     let check = el.checked ? "select" : "noselect";
                     let check2 = el.checked ? "noselect" : "select";
-                    ve.classList.replace(check2,check);
+                    ve.classList.replace(check2, check);
                 }
             );
             storage.GSave("textSelect", `${el.checked}`);
         }
     }
     ,
-    swapitems: (num) => {
+    swapitems: function (num) {
         let list = storage.GGet("list");
         let check = storage.GGet("checkState");
         let temp = list[num];
@@ -450,9 +483,17 @@ let control = {
         ////console.log(list);
         storage.GSave("list", list);
         storage.GSave("checkState", check);
+        control.additem("restore");
+        let targetnum = this.targetnum;
         control.targetnum = null;
         control.target = null;
-        control.additem("restore");
+        let color = "skyblue";
+        document.querySelectorAll("li")[targetnum].style.backgroundColor = color;
+        document.querySelectorAll("li")[num].style.backgroundColor = color;
+        setTimeout(()=>{
+            document.querySelectorAll("li")[targetnum].removeAttribute("style");
+            document.querySelectorAll("li")[num].removeAttribute("style");
+        },800)
     },
     start: (alert) => {
         if (storage.GGet("list")) {
@@ -462,6 +503,21 @@ let control = {
         else
             control.savebutton();
     },
+    copyToClipboard: function (el) {
+        let github = window.location.href;
+        let copyMSG = document.querySelector(".copy");
+        navigator.clipboard.writeText(github).then(function () {
+            copyMSG.classList.add("makeblock");
+            setTimeout(() => {
+                copyMSG.classList.remove("makeblock");
+                copyMSG.classList.add("makenone");
+            }, 3000)
+        }, function (err) {
+            console.error('Async: Could not copy text: ', err);
+        });
+
+
+    }
 };
 let settings = {
     focus: () => {
@@ -537,7 +593,6 @@ let settings = {
             swap.checked = control.enableTriple;
             selectText.checked = storage.GGet("textSelect").join('') == "true" ? true : false;;
             control.enableSelect.set(selectText);
-
         }
     }
 
@@ -550,28 +605,28 @@ let notFirstOpen = localStorage.getItem("firstOpen");
 if (notFirstOpen)
     control.additem("restore");
 else {
-    control.showAlert("Welcome to finish it website! <br>Notice Select content is disaple by default and you can enable it from the settings!", null, "showinfo()", "Show Info", "don't show info");
+    control.showAlert("Welcon to finish it website!", null, "showinfo()", "Show Info", "don't show info");
     localStorage.setItem("firstOpen", "true");
 }
 //you can restore you old work
-(function notifyme() {
-    if (Notification.permission == "granted" && localStorage.getItem("notification") != "false") {
-        setTimeout(() => {
-            localStorage.setItem("notification", "false");
-            let noti = new Notification("TO-List",
-                {
-                    body: "site uses cookies to restore old session!",
-                    icon: "icon/todo.png"
-                }
-            )
-        }, 1000)
-    }
-    else if (Notification.permission == "denied") {
-        return 0;
-    }
-    else {
-        Notification.requestPermission().then(() => {
-            ////console.log(Notification.permission);
-        })
-    }
-})();
+// (function notifyme() {
+//     if (Notification.permission == "granted" && localStorage.getItem("notification") != "false") {
+//         setTimeout(() => {
+//             localStorage.setItem("notification", "false");
+//             let noti = new Notification("TO-List",
+//                 {
+//                     body: "site uses cookies to restore old session!",
+//                     icon: "icon/todo.png"
+//                 }
+//             )
+//         }, 1000)
+//     }
+//     else if (Notification.permission == "denied") {
+//         return 0;
+//     }
+//     else {
+//         Notification.requestPermission().then(() => {
+//             ////console.log(Notification.permission);
+//         })
+//     }
+// })();

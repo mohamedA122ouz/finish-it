@@ -11,9 +11,9 @@
 <body onload="settings.restoreAndApply()">
 <div id="addAlert"></div>
     <header>
-        <div id="brand">
+        <div id="brand" onclick="control.copyToClipboard(this)">
             <img src="icon/todo.png" alt="page-icon" id="brand-icon">
-            <p id="brand-name">finish-it</p>
+            <p id="brand-name" >finish-it</p>
         </div>
         <span class="info"
             onclick="control.showAlert('This is a to do list website ,On control panel you have the red button to delete old list and create a new list<br>the green add button is to add to an item to an exist list<br>the white button is a refresh button<br>on hover list element you can find delete option to delete the hovered item and and the edit is to edite the specific item that you are hover.<div>!!NEW triple click any item in your list and choose which item to swap with to enable it open settings from settings button next to info button the check checkbox to enable it!!</div>  ',-1,`control.hideAlert()`,'OK',' ');"><svg
@@ -64,7 +64,7 @@
             <input type="checkbox" style="display:inline;max-width: max-content;"name="select" id="selectText" onclick="control.enableSelect.set(this)">
         </div>
         <button onclick="settings.apply()">apply</button>
-        <p id="copyRight">mohamed Ahmed Azouz&copy;2023<br>V0.3.4&nbsp;(beta)</p>
+        <p id="copyRight">mohamed Ahmed Azouz&copy;2023<br>V0.3.6&nbsp;(beta)</p>
     </div>
     <div id="container">
         <h1>control panel:</h1>
@@ -102,6 +102,7 @@
         <ol id="listIt">
         </ol>
     </div>
+    <div class="copy"></div>
     <script src="script/script.js"></script>
 </body>
 
