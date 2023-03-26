@@ -1,0 +1,161 @@
+    ol {
+        direction: ltr;
+        background: rgba(255, 255, 255, 0.25);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        border-radius: 10px;
+        color: white;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        accent-color: azure;
+    }
+
+    header {
+        width: 100%;
+        height: max-content;
+        background: rgba(255, 255, 255, 0.25);
+        display: flex;
+        margin: auto;
+        backdrop-filter: blur(40px);
+    }
+
+    #settings-title {
+        background: rgba(255, 255, 255, 0.25);
+    }
+
+    #settings {
+        color: white;
+        background-color: transparent;
+        backdrop-filter: blur(20px);
+        accent-color: blueviolet;
+    }
+
+    html {
+        background: radial-gradient(purple, black);
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-attachment: fixed;
+    }
+
+    li:hover {
+        background-color: transparent;
+        backdrop-filter: sepia(1);
+    }
+
+    h1 {
+        color: white;
+    }
+
+    button {
+        font-size: 0.5pt;
+        display: flex;
+        margin: 10px;
+        width: 2.5rem;
+        padding: none;
+        height: 2.5rem;
+        border-radius: 50%;
+        color: white;
+        border: 2px solid white;
+        background: radial-gradient(green 4%, transparent 74%) !important;
+        font-size: small;
+    }
+
+    button>p {
+        font-size: 0.5rem;
+    }
+
+    #start {
+        width: 2.5rem;
+    }
+
+    #alertbuttons,
+    #panelbuttons {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .exist {
+        top: 0px;
+    }
+
+    option {
+        background: rgb(77, 0, 84, 0.8);
+    }
+
+    select {
+        background: rgba(0, 0, 0, 0.2);
+        color: white;
+        outline: none;
+        border: none;
+        display: flex;
+        width: max-content;
+    }
+
+    .check>input[type="checkbox"] {
+        opacity: 0;
+        width: 1.4rem;
+        position: absolute;
+        z-index: 5;
+    }
+
+    .check>input[type="checkbox"]:checked+.checkshow {
+        background-color: purple;
+        transition: 300ms;
+        z-index: 2;
+    }
+
+    .check>input[type="checkbox"]:checked+.checkshow::after {
+        content: '';
+        border-color: white;
+        border-top: 2px solid;
+        border-right: 2px solid;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 0.6rem;
+        height: 0.3rem;
+        transition: 400ms;
+        transform: translate(-50%, -65%) rotate(135deg);
+    }
+
+    .checkshow {
+        content: '';
+        display: block;
+        position: relative;
+        border: white solid 2px;
+        width: 1.4rem;
+        border-radius: 50%;
+        height: 1.4rem;
+        z-index: 1;
+        margin: auto;
+    }
+
+    svg {
+        margin: auto;
+    }
+
+    p {
+        margin: auto;
+    }
+
+    button:nth-child(odd).activate {
+        background: radial-gradient(green 4%, transparent 74%) !important;
+        vertical-align: middle;
+    }
+
+    button:nth-child(odd) {
+        vertical-align: middle;
+        background: radial-gradient(red 0%, transparent 71%) !important;
+    }
+
+    #alert {
+        background: transparent;
+        color: white;
+        border-color: white;
+        backdrop-filter: blur(12px);
+    }
+
+    #textc {
+        background: rgba(255, 255, 255, 0.25);
+        color: white;
+    }
